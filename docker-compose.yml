@@ -16,15 +16,18 @@ services:
     php:
         build: ./images/php
         links:
-            - mysql
+            - db
         
         volumes:
             - ./www:/var/www
-    mysql:
-        image: mysql:8
-        ports:
-            - "3306:3306"
-        volumes:
-            - ./mysql:/var/lib/mysql
+    db:
+        image: postgres:10.1
+        restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: secret
+            - POSTGRES_DB=${DB_NAME}
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        ports:
+            - 5432:5432
+        volumes:
+            - ./.docker/conf/postgres/:/docker-entrypoint-initdb.d/
