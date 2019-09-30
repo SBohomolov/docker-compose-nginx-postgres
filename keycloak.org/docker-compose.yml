@@ -1,0 +1,16 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: network
+
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    environment:
+      - VIRTUAL_HOST=keycloak.org
+      - LETSENCRYPT_HOST=keycloak.org
+      - LETSENCRYPT_EMAIL=admin@keycloak.org
